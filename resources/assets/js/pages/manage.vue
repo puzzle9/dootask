@@ -204,8 +204,6 @@
                         <DropdownItem name="project">{{$L('新建项目')}} ({{mateName}}+B)</DropdownItem>
                         <DropdownItem name="task">{{$L('新建任务')}} ({{mateName}}+K)</DropdownItem>
                         <DropdownItem name="group">{{$L('创建群组')}} ({{mateName}}+U)</DropdownItem>
-                        <DropdownItem name="createMeeting">{{$L('新会议')}} ({{mateName}}+J)</DropdownItem>
-                        <DropdownItem name="joinMeeting">{{$L('加入会议')}}</DropdownItem>
                     </DropdownMenu>
                 </Dropdown>
             </ButtonGroup>
