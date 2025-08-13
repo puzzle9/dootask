@@ -106,7 +106,7 @@ class User extends AbstractModel
             }
             return $value;
         }
-        return Base::formatName($this->email);
+        return $this->email;
     }
 
     /**
