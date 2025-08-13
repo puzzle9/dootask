@@ -22,7 +22,7 @@ class CreateUsersTable extends Migration
             $table->string('profession')->nullable()->default('')->comment('职位/职称');
             $table->string('userimg')->nullable()->default('')->comment('头像');
             $table->string('encrypt', 50)->nullable()->default('');
-            $table->string('password', 50)->nullable()->default('')->comment('登录密码');
+            $table->string('password', 64)->nullable()->default('')->comment('登录密码');
             $table->tinyInteger('changepass')->nullable()->default(0)->comment('登录需要修改密码');
             $table->integer('login_num')->nullable()->default(0)->comment('累计登录次数');
             $table->string('last_ip', 20)->nullable()->default('')->comment('最后登录IP');

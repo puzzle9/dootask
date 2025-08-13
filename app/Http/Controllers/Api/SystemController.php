@@ -869,55 +869,7 @@ class SystemController extends AbstractController
      */
     public function license()
     {
-        User::auth('admin');
-        //
-        $type = trim(Request::input('type'));
-        if ($type == 'save') {
-            $license = Request::input('license');
-            Doo::licenseSave($license);
-        }
-        //
-        $data = [
-            'license' => Doo::licenseContent(),
-            'info' => Doo::license(),
-            'macs' => Doo::macs(),
-            'doo_sn' => Doo::dooSN(),
-            'doo_version' => Doo::dooVersion(),
-            'user_count' => User::whereBot(0)->whereNull('disable_at')->count(),
-            'error' => []
-        ];
-        if ($data['info']['people'] > 3) {
-            // 小于3人的License不检查
-            if ($data['info']['sn'] != $data['doo_sn']) {
-                $data['error'][] = '终端SN与License不匹配';
-            }
-            if ($data['info']['mac'] && $data['macs']) {
-                $approved = false;
-                foreach ($data['info']['mac'] as $mac) {
-                    if (in_array($mac, $data['macs'])) {
-                        $approved = true;
-                        break;
-                    }
-                }
-                if (!$approved) {
-                    $data['error'][] = '终端MAC与License不匹配';
-                }
-            }
-        }
-        if ($data['info']['people'] > 0 && $data['user_count'] > $data['info']['people']) {
-            $data['error'][] = '终端用户数超过License限制';
-        }
-        if ($data['info']['expired_at'] && strtotime($data['info']['expired_at']) <= Timer::time()) {
-            $data['error'][] = '终端License已过期';
-        }
-        //
-        if ($type === 'error') {
-            $data = [
-                'error' => $data['error']
-            ];
-        }
-        //
-        return Base::retSuccess('success', $data);
+        return Base::retSuccess('success', []);
     }
 
     /**

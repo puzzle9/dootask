@@ -2,6 +2,7 @@
 
 namespace App\Tasks;
 
+use Illuminate\Support\Facades\Hash;
 use App\Models\FileContent;
 use App\Models\Project;
 use App\Models\ProjectTask;
@@ -295,8 +296,7 @@ class BotReceiveMsgTask extends AbstractTask
                     $botId = $isManager ? $array[1] : $botUser->userid;
                     $data = $this->getBotInfo($botId, $msg->userid);
                     if ($data) {
-                        $data->encrypt = Base::generatePassword(6);
-                        $data->password = Doo::md5s(Base::generatePassword(32), $data->encrypt);
+                        $data->password = Hash::make(Base::generatePassword(32));
                         $data->save();
                     } else {
                         $content = "机器人不存在。";

@@ -91,6 +91,8 @@ class User extends AbstractModel
     // 基本信息的字段
     public static $basicField = ['userid', 'email', 'nickname', 'profession', 'department', 'userimg', 'bot', 'az', 'pinyin', 'line_at', 'disable_at'];
 
+    protected $guarded = [];
+
     /**
      * 昵称
      * @param $value
@@ -481,7 +483,7 @@ class User extends AbstractModel
             // token 不存在
             return RequestContext::save('auth', false);
         }
-        $user = self::whereUserid(Doo::userId())->whereEmail(Doo::userEmail())->whereEncrypt(Doo::userEncrypt())->first();
+        $user = self::whereUserid(Doo::userId())->whereEmail(Doo::userEmail())->first();
         if (!$user) {
             // 登录信息不匹配
             return RequestContext::save('auth', false);
@@ -518,8 +520,7 @@ class User extends AbstractModel
     {
         if (!$refresh) {
             if (Doo::userId() != $userinfo->userid
-                || Doo::userEmail() != $userinfo->email
-                || Doo::userEncrypt() != $userinfo->encrypt) {
+                || Doo::userEmail() != $userinfo->email) {
                 $refresh = true;
             }
         }
@@ -722,6 +723,7 @@ class User extends AbstractModel
                 return null;
             }
             $botUser->updateInstance([
+                'bot'        => 1,
                 'created_ip' => Base::getIp(),
             ]);
             $botUser->save();

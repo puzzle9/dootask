@@ -11,6 +11,7 @@ use DB;
 use FFI;
 use FFI\CData;
 use FFI\Exception;
+use Illuminate\Support\Facades\Hash;
 use Throwable;
 
 class DooSo
@@ -192,23 +193,12 @@ class DooSo
      */
     public function userCreate($email, $password): User|null
     {
-        $data = Base::json2array(self::string($this->so->userCreate($email, $password)));
-        if (Base::isError($data)) {
-            throw new ApiException($data['msg'] ?: '注册失败');
-        }
-        if (DB::transactionLevel() > 0) {
-            try {
-                DB::commit();
-                DB::beginTransaction();
-            } catch (Throwable) {
-                // do nothing
-            }
-        }
-        $user = User::whereEmail($email)->first();
-        if (empty($user)) {
-            throw new ApiException('注册失败');
-        }
-        return $user;
+        return User::firstOrCreate([
+            'email' => $email,
+        ], [
+            'bot'      => 0,
+            'password' => Hash::make($password),
+        ]);
     }
 
     /**

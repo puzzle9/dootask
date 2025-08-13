@@ -53,7 +53,7 @@ class WebSocketService implements WebSocketHandlerInterface
                     $count = 0;
                     $userid = Doo::userId();
                     if ($userid > 0 && !Doo::userExpired()) {
-                        $count = User::whereUserid($userid)->whereEmail(Doo::userEmail())->whereEncrypt(Doo::userEncrypt())->count();
+                        $count = User::whereUserid($userid)->whereEmail(Doo::userEmail())->count();
                     }
                     if ($count) {
                         // 用户正常

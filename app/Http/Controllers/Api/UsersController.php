@@ -31,6 +31,7 @@ use App\Models\WebSocketDialogMsg;
 use Illuminate\Support\Facades\DB;
 use App\Models\UserEmailVerification;
 use App\Module\AgoraIO\AgoraTokenGenerator;
+use Illuminate\Support\Facades\Hash;
 use Swoole\Coroutine;
 
 /**
@@ -127,7 +128,7 @@ class UsersController extends AbstractController
             if (empty($user)) {
                 return $retError('帐号或密码错误');
             }
-            if ($usePassword && $user->password != Doo::md5s($password, $user->encrypt)) {
+            if ($usePassword && !Hash::check($password, $user->password)) {
                 return $retError('帐号或密码错误');
             }
             //
@@ -516,13 +517,10 @@ class UsersController extends AbstractController
         }
         User::passwordPolicy($newpass);
         //
-        $verify = User::whereUserid($user->userid)->wherePassword(Doo::md5s($oldpass, Doo::userEncrypt()))->count();
-        if (empty($verify)) {
+        if (!Hash::check($oldpass, $user->password)) {
             return Base::retError('请填写正确的旧密码');
         }
-        //
-        $user->encrypt = Base::generatePassword(6);
-        $user->password = Doo::md5s($newpass, $user->encrypt);
+        $user->password = Hash::make($newpass);
         $user->changepass = 0;
         $user->save();
         User::generateToken($user);
@@ -1084,7 +1082,7 @@ class UsersController extends AbstractController
             $password = trim($data['password']);
             User::passwordPolicy($password);
             $upArray['encrypt'] = Base::generatePassword(6);
-            $upArray['password'] = Doo::md5s($password, $upArray['encrypt']);
+            $upArray['password'] = Hash::make($password);
             $upArray['changepass'] = 1;
             $upLdap['userPassword'] = $password;
         }
@@ -1639,7 +1637,7 @@ class UsersController extends AbstractController
             if (!$password) {
                 return Base::retError('请输入登录密码');
             }
-            if ($user->password != Doo::md5s($password, $user->encrypt)) {
+            if (!Hash::check($password, $user->password)) {
                 return Base::retError('密码错误');
             }
         }
