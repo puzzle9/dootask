@@ -13,11 +13,6 @@ const basePath = argv.includes('electronBuild') ? './' : '/';
 const publicPath = argv.includes('electronBuild') ? 'electron/public' : 'public';
 const staticDir = {src: path.resolve(__dirname, 'resources/assets/statics/public'), dest: path.resolve(__dirname, publicPath)}
 
-if (!argv.includes('fromcmd')) {
-    execSync(`npx ${path.resolve(__dirname, 'cmd')} ${argv.includes("build") ? "build" : "dev"}`, {stdio: "inherit"});
-    process.exit()
-}
-
 export default defineConfig(({command, mode}) => {
     const env = loadEnv(mode, process.cwd(), '')
     const host = "0.0.0.0"

@@ -1490,7 +1490,6 @@ class SystemController extends AbstractController
      */
     public function version()
     {
-        $package = Base::getPackage();
         $array = [
             'device_count' => 0,
             'version' => Base::getVersion(),
@@ -1498,17 +1497,6 @@ class SystemController extends AbstractController
         ];
         if (Doo::userId()) {
             $array['device_count'] = UserDevice::whereUserid(Doo::userId())->count();
-        }
-        if (is_array($package['app'])) {
-            $i = 0;
-            $url = url('');
-            foreach ($package['app'] as $item) {
-                $urls = $item['urls'] && is_array($item['urls']) ? $item['urls'] : $item['url'];
-                if (is_array($item['publish']) && ($i === 0 || Base::hostContrast($url, $urls))) {
-                    $array['publish'] = $item['publish'];
-                }
-                $i++;
-            }
         }
         if (Request::hasHeader('version')) {
             return Base::retSuccess('success', $array);

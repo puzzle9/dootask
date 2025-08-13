@@ -4,8 +4,8 @@
     "codeVerson": 207,
     "description": "DooTask is task management system.",
     "scripts": {
-        "start": "./cmd dev",
-        "build": "./cmd prod",
+        "start": "vite dev",
+        "build": "vite build",
         "version": "node ./bin/version.js",
         "translate": "./cmd translate"
     },

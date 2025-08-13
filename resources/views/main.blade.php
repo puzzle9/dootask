@@ -54,7 +54,7 @@
         if (document.getElementById("app")?.getAttribute("data-preload") === "false") {
             window.location.reload();
         }
-    }, 6000);
+    }, 1000 * 30);
 </script>
 <script type="module" src="{{$script}}"></script>
 </body>

@@ -66,7 +66,7 @@ export default {
 
     mounted() {
         this.prefetchResources()
-        this.checkVersion()
+        // this.checkVersion()
         //
         if (this.$Electron) {
             emitter.on('updateNotification', this.onUpdateShow);
@@ -97,6 +97,7 @@ export default {
         },
 
         showDown() {
+            return false
             if (this.$isEEUIApp || this.windowTouch) {
                 // app或者触摸屏不显示下载链接
                 return false;
@@ -109,6 +110,7 @@ export default {
         },
 
         showPrivacy() {
+            return false
             return $A.isDooServer() && this.$isEEUIApp && ['login'].includes(this.routeName)
         }
     },

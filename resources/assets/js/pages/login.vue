@@ -4,7 +4,7 @@
         <div class="login-body">
             <div class="login-logo no-dark-content"></div>
             <div class="login-box">
-                <div class="login-mode-switch">
+                <div class="login-mode-switch" v-if="false">
                     <div class="login-mode-switch-box">
                         <ETooltip :disabled="$isEEUIApp || windowTouch" :content="$L(loginMode=='qrcode' ? '帐号登录' : '扫码登录')" placement="left">
                             <span class="login-mode-switch-icon no-dark-content" @click="switchLoginMode">

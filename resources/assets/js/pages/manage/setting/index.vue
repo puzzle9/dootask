@@ -105,8 +105,6 @@ export default {
                 ])
             }
             menu.push(...[
-                {path: 'version', name: '更新日志', divided: true},
-                {path: 'version-show', name: '版本'},
                 {path: 'device', name: '登录设备', divided: true},
                 {path: 'clearCache', name: '清除缓存'},
                 {path: 'logout', name: '退出登录'},
